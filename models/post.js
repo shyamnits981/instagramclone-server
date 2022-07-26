@@ -2,16 +2,12 @@ const mongoose = require('mongoose');
 
 const {ObjectId } = mongoose.Schema.Types
 const postSchema = new mongoose.Schema({
-    author:{
+    title:{
         type:String,
         required:true
     },
-    location:{
+    body:{
        type: String,
-       required:true
-    },
-    description:{
-        type: String,
        required:true
     },
     photo:{

@@ -6,7 +6,8 @@ const requireLogin = require('../middleware/requireLogin')
 const Post = mongoose.model("Post")
 
 router.get('/allpost',(req, res)=>{
-    Post.find().populate("postedBy","_id name")
+    Post.find()
+    .populate("postedBy","_id name")
     .then(posts=>{
         res.json({posts})
     }).catch(err=>{
@@ -15,29 +16,28 @@ router.get('/allpost',(req, res)=>{
 })
 
 router.post('/createpost',requireLogin,(req,res)=>{ 
-    const {author,location,pic,description} = req.body
-    if(!author || !location || !pic || !description ){
+    const {title,body} = req.body
+    if(!title || !body){
         return res.status(422).json({error:"Please add all the fields"});
     }
-   
+    req.user.password =undefined;
     const post = new Post({
-        author,
-        location,
-        description,
-        photo:pic,
-        postedBy:req.user
+        title,
+        body,
+        postedBy:req.user 
     })
-
     post.save().then(result=>{
         res.json({post:result})
-    }).catch(err=>{
+    })
+    .catch(err=>{
         console.log(err);
     })
 })
 
 router.get("/mypost",requireLogin,(req, res)=>{
     Post.find({postedBy:req.user._id})
-    .populate("postedBy","id name").then(mypost=>{
+    .populate("postedBy","id name")
+    .then(mypost=>{
         res.json({mypost})
     }).catch(err=>{
         console.log(err);

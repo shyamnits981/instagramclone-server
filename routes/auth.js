@@ -16,7 +16,7 @@ router.get("/protected", requireLogin, (req, res) => {
 router.post('/signup', (req, res)=> {
     const {name,email,password} = req.body
     if (!email || !password || !name) {
-        return res.status(422).json({ error: "Please add all the fild" })
+        return res.status(422).json({ error: "Please add all the fild properly" })
     }
     User.findOne({email:email}).then((savedUser) => {
         if (savedUser) {

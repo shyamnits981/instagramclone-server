@@ -2,13 +2,14 @@ const express = require("express");
 const app = express()
 const cors = require("cors");
 const mongoose = require("mongoose");
-PORT = 2020;
+PORT = 5000;
 const {MONGOURI} = require("./keys");
 
 
 require('./models/user')
 require('./models/post')
 
+app.use(cors())
 app.use(express.json());
 app.use(require('./routes/auth'))
 app.use(require('./routes/post'))
